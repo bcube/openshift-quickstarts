@@ -90,10 +90,10 @@ public class ServletServer {
                     .setDeploymentName("test.war")
                     .addServlets(
                             servlet("MessageServlet", MessageServlet.class)
-                                    .addInitParam("message", "Hello World")
+                                    .addInitParam("message", "Hello World-after-connection-is-created")
                                     .addMapping("/*"),
                             servlet("MyServlet", MessageServlet.class)
-                                    .addInitParam("message", "MyServlet")
+                                    .addInitParam("message", "MyServlet-after-connection-is-created")
                                     .addMapping("/myservlet"));
 
             DeploymentManager manager = defaultContainer().addDeployment(servletBuilder);
