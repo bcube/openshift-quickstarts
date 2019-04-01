@@ -57,6 +57,12 @@
             <version>${version.jboss.logmanager}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.nuodb.jdbc</groupId>
+            <artifactId>nuodb-jdbc</artifactId>
+            <version>20.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>

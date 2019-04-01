@@ -37,6 +37,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.KeyStore;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * @author Stuart Douglas
@@ -45,8 +49,40 @@ public class ServletServer {
 
     public static final String MYAPP = "/";
 
+    /** The driver class provided by NuoDB. */
+    public static final String DRIVER_CLASS =
+            "com.nuodb.jdbc.Driver";
+    /** The base URL for connecting to a local database server. */
+    public static final String DATABASE_URL =
+            "jdbc:com.nuodb://east48004-nuodb.dev-oc1.welabvb.com/";
+    // the established connection to a local server
+    private final Connection dbConnection;
+
+    public ServletServer(String user, String password, String dbName)
+            throws SQLException
+    {
+        Properties properties = new Properties();
+        properties.put("user", user);
+        properties.put("password", password);
+        properties.put("schema", "hello");
+        dbConnection =
+                DriverManager.getConnection(DATABASE_URL + dbName, properties);
+    }
+    /** Closes the connection to the server. */
+    public void close() throws SQLException {
+        dbConnection.close();
+    }
+
     public static void main(final String[] args) {
         try {
+
+
+            Class.forName(DRIVER_CLASS);
+
+            ServletServer helloDB = new ServletServer("dba", "secret", "demo");
+
+            helloDB.close();
+
 
             DeploymentInfo servletBuilder = deployment()
                     .setClassLoader(ServletServer.class.getClassLoader())
